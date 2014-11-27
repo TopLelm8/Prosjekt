@@ -1,0 +1,34 @@
+import lejos.nxt.*;
+import lejos.nxt.addon.GyroSensor;
+import lejos.robotics.Gyroscope;
+import lejos.nxt.addon.GyroDirectionFinder.*;
+import lejos.nxt.addon.GyroSensor;
+import lejos.nxt.NXTRegulatedMotor.*;
+import lejos.robotics.navigation.*;
+import lejos.robotics.navigation.Segoway.*;
+import lejos.robotics.navigation.SegowayPilot.*;
+
+class Gyrotest{
+	public static void main(String[] args)throws Exception{
+
+		NXTMotor m1 = new NXTMotor(MotorPort.A);
+		NXTMotor m2 = new NXTMotor(MotorPort.B);
+
+		GyroSensor gs = new GyroSensor(SensorPort.S1);
+		UltrasonicSensor sens = new UltrasonicSensor(SensorPort.S2);
+
+		Segoway segway = new Segoway(m1,m2,gs,SegowayPilot.WHEEL_SIZE_NXT1);			//Lager et konstruktør fra klassen Segoway som allerede gjør utregning for balansering
+
+		int x=1;
+		while(x==1){			//Satte opp en løkke slik at segwayen kan kjøre og ungå å kjøre inn i vegger og andre ting.
+				segway.wheelDriver(-50,-50);
+				x=1;
+			while(sens.getDistance()<30){
+				segway.wheelDriver(0,0);
+				segway.wheelDriver(-30,30);
+				x=1;
+			}
+			x=1;
+		}
+	}
+}
